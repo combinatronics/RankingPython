@@ -13,20 +13,19 @@ Test the ranking and unranking routines for all permutations of n.
 Returns False and any test fails.
 '''
 def test(n):
-  fact = factorial(n)
-
   # Test the unrank function by creating a list of all permutations.
-  perm_list = []
-  for i in range(fact):
-    perm = tuple(unrank(i, n))
-    perm_list.append(perm)
-  perm_set = set(perm_list)
-  if (len(perm_set) != factorial(n)):
+  num_objects = factorial(n)
+  object_list = []
+  for i in range(num_objects):
+    next_object = tuple(unrank(i, n))
+    object_list.append(next_object)
+  object_set = set(object_list)
+  if (len(object_set) != num_objects):
     return False
 
   # Test the rank function for all of the permutations created above.
-  for i, perm in enumerate(perm_list):
-    pos = rank(perm, n)
+  for i, next_object in enumerate(object_list):
+    pos = rank(next_object, n)
     if pos != i:
       return False
 
@@ -39,7 +38,7 @@ Simple usage message.
 def usage(n):
   print("The value of n must be between 0 and 20.")
   print("When ranking the permutation is a reordering of list(range(1,n+1)).")
-  print("When unrakning the provided ranks are 0-based.")  
+  print("When unrakning the provided ranks are 0-based.")
 
 
 '''
@@ -107,5 +106,6 @@ def unrank(rank, n):
 
 
 if __name__ == "__main__":
-  n = 6 
-  test(n)
+  for n in range(1, 8):
+    passed = test(n)
+    assert(passed)
