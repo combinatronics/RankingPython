@@ -9,27 +9,10 @@ from math import factorial
 
 
 '''
-Test the ranking and unranking routines for all permutations of n.
-Returns False and any test fails.
+Returns the number of permutations of n.
 '''
-def test(n):
-  # Test the unrank function by creating a list of all permutations.
-  num_objects = factorial(n)
-  object_list = []
-  for i in range(num_objects):
-    next_object = tuple(unrank(i, n))
-    object_list.append(next_object)
-  object_set = set(object_list)
-  if (len(object_set) != num_objects):
-    return False
-
-  # Test the rank function for all of the permutations created above.
-  for i, next_object in enumerate(object_list):
-    pos = rank(next_object, n)
-    if pos != i:
-      return False
-
-  return True
+def total(n):
+    return factorial(n)
 
 
 '''
@@ -104,8 +87,3 @@ def unrank(rank, n):
   perm = list(copy)
   return perm
 
-
-if __name__ == "__main__":
-  for n in range(1, 8):
-    passed = test(n)
-    assert(passed)

@@ -13,32 +13,11 @@ from rankPerm import unrank as unrank_perm
 from rankBinary import rank as rank_binary
 from rankBinary import unrank as unrank_binary
 
-'''
-Test the ranking and unranking routines for all signed permutations of n.
-Returns False and any test fails.
-'''
-def test(n):
-  # Test the unrank function by creating a list of all signed permutations.
-  object_list = []
-  for i in range(num_objects(n)):
-    next_object = tuple(unrank(i, n))
-    object_list.append(next_object)
-  object_set = set(object_list)
-  if (len(object_set) != num_objects(n)):
-    return False
-
-  # Test the rank function for all of the signed permutations created above.
-  for i, next_object in enumerate(object_list):
-    pos = rank(next_object, n)
-    if pos != i:
-      return False
-
-  return True
 
 '''
 Returns the number of signed permutations of n.
 '''
-def num_objects(n):
+def total(n):
     return 2**n * factorial(n)
 
 
@@ -66,7 +45,7 @@ def rank(signed, n):
 Return the signed permutation of n that has the given rank.
 '''
 def unrank(rank, n):
-  if (n < 1 or n > 20 or rank < 0 or rank >= num_objects(n)):
+  if (n < 1 or n > 20 or rank < 0 or rank >= total(n)):
     usage(n)
     return [-1]
   remainder = rank % (2**n)
@@ -77,8 +56,3 @@ def unrank(rank, n):
   signed = [signs[i]*perm[i] for i in range(n)]
   return signed
 
-
-if __name__ == "__main__":
-  for n in range(1, 5):
-    passed = test(n)
-    assert(passed)
