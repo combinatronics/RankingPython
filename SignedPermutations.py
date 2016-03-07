@@ -6,12 +6,12 @@ Ranking and unranking signed permutations using by multiplying two orders:
 Note: The order used here is *not* lexicographic order.
 '''
 
-from GenerateObject import GenerateObject
+from RankObject import RankObject
 from BinaryStrings import BinaryStrings
 from Permutations import Permutations
 from math import factorial
 
-class SignedPermutations(GenerateObject):
+class SignedPermutations(RankObject):
     def __init__(self):
         self.name = "signed permutation"
         self.B = BinaryStrings()
