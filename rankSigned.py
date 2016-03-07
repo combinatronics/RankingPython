@@ -8,8 +8,10 @@ The ranks are 0-based.
 '''
 
 from math import factorial
-from rankPerm import rank, unrank as rank_perm, unrank_perm
-from rankBinary import rank, unrank as rank_binary, unrank_binary
+from rankPerm import rank as rank_perm
+from rankPerm import unrank as unrank_perm
+from rankBinary import rank as rank_binary
+from rankBinary import unrank as unrank_binary
 
 '''
 Test the ranking and unranking routines for all signed permutations of n.
@@ -53,10 +55,10 @@ def usage(n):
 Returns the rank of the signed permutation of n.
 '''
 def rank(signed, n):
-    binary = []
+    binary = [int(x < 0) for x in signed]
     perm = [abs(x) for x in signed]
-    prank = rank_perm(perm)
-    brank = rank_binary(binary)
+    prank = rank_perm(perm, n)
+    brank = rank_binary(binary, n)
     return prank*(2**n) + brank
 
 
@@ -67,24 +69,16 @@ def unrank(rank, n):
   if (n < 1 or n > 20 or rank < 0 or rank >= num_objects(n)):
     usage(n)
     return [-1]
-  # TODO: Continue working from here.
   remainder = rank % (2**n)
-
-  quotient = rank
-  copy = list(range(1,n+1))
-  for i in range(n, 1, -1):
-    remainder = quotient % i
-    quotient = quotient / i
-    x = i-1
-    y = remainder
-    temp = copy[x]
-    copy[x] = copy[y]
-    copy[y] = temp
-  perm = list(copy)
-  return perm
+  quotient = rank / (2**n)
+  binary = unrank_binary(remainder, n)
+  perm = unrank_perm(quotient, n)
+  signs = [-2*b+1 for b in binary] # map 0 -> 1 and 1 to -1 
+  signed = [signs[i]*perm[i] for i in range(n)]
+  return signed
 
 
 if __name__ == "__main__":
-  for n in range(1, 6):
+  for n in range(1, 5):
     passed = test(n)
     assert(passed)
